@@ -32,7 +32,7 @@ public class HomeController {
 		}
 		else {
 			List<Publication> Pub_site = publicationRepository.findByStatut(true);
-			Utilisateurs user = utilisateursRepository.findByEmail(userDetails.getUsername());
+			//Utilisateurs user = utilisateursRepository.findByEmail(userDetails.getUsername());
 			List<Publication> Pub = publicationRepository.findByUtilisateur(user);
 			int cnt = Pub.size();
 			int cnt_site = Pub_site.size();
