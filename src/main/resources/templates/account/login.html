@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head> 
+
+    <title>Proverbe Traduction</title> 
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<th:block  th:include="/head_login.html"> </th:block>
+	
+</head>
+
+<body>
+ 
+<div id="login-page">
+ <div class="container">
+  
+ <form role="form" th:action="@{/login}" th:object="${utilisateurs}" method="post" class="form-login style-form">
+      <div th:if="${param.error}">
+<div class="alert alert-danger">
+Probleme Prendant l'authentification , Veuillez ressayer ou contacter l'administrateur si votre compte n'est encore valider
+</div>
+</div>
+<div th:if="${param.errvalid}">
+<div class="alert alert-danger">
+Votre Compte a bien etait Creer / Compte Desactiver.</br>
+Veuillez Attendre Sa validation par un admin.
+</div>
+
+</div>
+        <h2 class="form-login-heading">Login Utilisateurs</h2>
+        <div class="login-wrap">
+          <input type="email" name="username" id="name" placeholder="Entrer votre Email" class="form-control" required autofocus>
+          <br>
+          <input type="password" name="password" id="password" placeholder="Password" class="form-control" required>
+		  <br>
+          <button class="btn btn-theme btn-block" href="index.html" type="submit"><i class="fa fa-lock"></i> Se Connecter</button>
+          <hr>
+          
+          <div class="registration">
+            Pas encore Inscris ?<br/>
+            <a class="" href="/inscription">
+              S'inscrire
+              </a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+
+<th:block  th:include="/foot.html"> </th:block>
+</html>

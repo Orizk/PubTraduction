@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head> 
+
+    <title>Proverbe Traduction</title> 
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<th:block  th:include="/head.html"> </th:block>
+	<th:block  th:include="/menu.html"> </th:block>
+</head>
+
+<body>
+
+    <div th:switch="${utilisateurs}">       
+    <section id="main-content">   
+    	<section class="wrapper">   
+	<div class="row mt">
+          <div class="col-lg-12">
+            <div class="content-panel">
+              <table class="table table-striped table-advance table-hover">
+                <h4><i class="fa fa-angle-right"></i> List des utilisateurs</h4>
+                <hr>
+                <thead>
+                  <tr>
+                    <th><i class="fa fa-user"></i> Nom</th>
+                    <th class="hidden-phone"><i class="fa fa-user"></i> Prenom</th>
+                    <th class="hidden-phone"><i class="fa fa-user"></i> Email</th>
+                    <th class="hidden-phone"><i class="fa fa-user"></i> Role</th>
+                    <th class="hidden-phone"><i class="fa fa-check"></i> Valide</th>
+                    <th><i class="fa fa-cog"></i> Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="utilisateurs : ${utilisateurs}">
+                    <td th:text="${utilisateurs.nom}"></td>
+                     <td th:text="${utilisateurs.prenom}"></td>
+                    <td th:text="${utilisateurs.email}"></td>
+                    <td th:text="${utilisateurs.role}"></td>
+                    <td>
+                    <span th:if="${utilisateurs.accountVerified == true}">Oui</span>
+                    <span th:unless="${utilisateurs.accountVerified == true}">Non</span>
+                    </td>
+                    <td>
+                    <button th:if="${utilisateurs.accountVerified == false}" type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modalvalidation" th:data-whatever="${utilisateurs.id_utilisateur}" data-title="Activation de Compte" th:data-name="${'Vous voulez Activer le compte de '+utilisateurs.nom+' '+utilisateurs.prenom}+' ?'"><i class="fa fa-check "></i></button>
+                     <button th:unless="${utilisateurs.accountVerified == false}" type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteconfirmation" th:data-whatever="${utilisateurs.id_utilisateur}" data-title="Desactivation de Compte" th:data-name="${'Vous voulez Desactiver le compte de '+utilisateurs.nom+' '+utilisateurs.prenom}+' ?'"><i class="fa fa-times "></i></button>
+                    <!-- <a th:if="${utilisateurs.accountVerified == true}" class="btn btn-danger btn-xs" th:href="@{~/utilisateurs/valide/{id}(id=${utilisateurs.id})}"><i class="fa fa-times"></i></a>
+                      <a th:unless="${utilisateurs.accountVerified == true}" class="btn btn-success btn-xs" th:href="@{~/utilisateurs/valide/{id}(id=${utilisateurs.id})}"><i class="fa fa-check"></i></a>-->
+                     <a class="btn btn-primary btn-xs" th:href="@{~/admin/utilisateurs/edit/{id}(id=${utilisateurs.id_utilisateur})}"> <i class="fa fa-pencil"></i></a>
+                      <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteconfirmation" th:data-whatever="${utilisateurs.id_utilisateur}" th:data-name="${utilisateurs.nom+' '+utilisateurs.prenom}"><i class="fa fa-trash-o "></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <!-- Modal Pour la supression -->
+            <div class="modal fade" id="deleteconfirmation" tabindex="-1" role="dialog" aria-labelledby="deleteconfirmation" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirmer la Suppression</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <a class="btn btn-primary del" >Supprimer</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Fin modal Suppression -->
+
+<!-- Modal Activation et Désactivation -->
+<div class="modal fade" id="modalvalidation" tabindex="-1" role="dialog" aria-labelledby="modalvalidation" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <a class="btn btn-primary actv" >Oui</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Fin Modal Activer desactiver -->
+            <!-- /content-panel -->
+          </div>
+          <!-- /col-md-12 -->
+        </div>
+        <p><a href="#" class="btn btn-primary btn-md" th:href="@{~/admin/utilisateurs/ajout_utilisateurs}">Ajouter Utilisateurs</a></p>
+    	</section>
+    </section>
+    
+
+</div>
+
+</body>
+<th:block  th:include="/foot.html"> </th:block>
+<script>
+$('#deleteconfirmation').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) 
+  var id = button.data('whatever') 
+  var nom = button.data('name')
+  var modal = $(this)
+  modal.find('.modal-body').text("Confirmer la suppresion de l'utilisateur "+nom)
+  modal.find('.del').attr("href", "/admin/utilisateurs/delete/"+id)
+});
+
+$('#modalvalidation').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) 
+  var id = button.data('whatever') 
+  var body = button.data('name')
+  var title = button.data('title')
+  var modal = $(this)
+  
+  modal.find('.modal-title').text(title)
+  modal.find('.modal-body').text(body)
+  modal.find('.actv').attr("href", "/admin/utilisateurs/valide/"+id)
+})
+</script>
+</html>

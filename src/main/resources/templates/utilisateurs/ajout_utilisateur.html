@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head> 
+
+    <title>Proverbe Traduction</title> 
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<th:block  th:include="/head.html"> </th:block>
+	<th:block  th:include="/menu.html"> </th:block>
+	
+</head>
+
+<body>
+<section id="main-content">
+      <section class="wrapper">
+        <h3><i class="fa fa-angle-right"></i> Gestion Utilisateurs</h3>
+<!-- BASIC FORM VALIDATION -->
+        <div class="row mt">
+          <div class="col-lg-12">
+            <h4><i class="fa fa-angle-right"></i> Ajouter un Utilisateur</h4>
+            <div class="form-panel">
+              <form role="form" th:action="@{/save_utilisateurs}" th:object="${utilisateurs}" method="post" class="form-horizontal style-form">
+                <div class="form-group has-success">
+                
+                  <label class="col-lg-2 control-label">Nom</label>
+                  <div class="col-lg-10">
+ 						<input type="text" th:field="*{nom}" id="name" placeholder="Nom" class="form-control" required>
+                  </div>
+                </div>
+                 <div class="form-group has-success">
+                  <label class="col-lg-2 control-label">Prenom</label>
+                  <div class="col-lg-10">
+ 						<input type="text" th:field="*{prenom}" id="prenom" placeholder="Prenom" class="form-control" required>
+                  </div>
+                </div>
+                <div class="form-group has-success">
+                  <label class="col-lg-2 control-label">Email</label>
+                  <div class="col-lg-10">
+ 						<input type="text" th:field="*{email}" id="email" placeholder="E-mail" class="form-control" required>
+                  </div>
+                </div>
+                <div class="form-group has-success">
+                  <label class="col-lg-2 control-label">Role</label>
+                  <div class="col-lg-10">
+ 						<input type="text" th:field="*{role}" id="role" placeholder="Role" class="form-control" required>
+                  </div>
+                </div>
+                <div class="form-group has-success">
+                  <label class="col-lg-2 control-label">Password</label>
+                  <div class="col-lg-10">
+ 						<input type="password" th:field="*{password}" id="mdp" placeholder="Password" class="form-control" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-lg-offset-2 col-lg-10">
+                    <button class="btn btn-theme" type="submit">Submit</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <!-- /form-panel -->
+          </div>
+          <!-- /col-lg-12 -->
+        </div>
+        <!-- /row -->
+        <!-- FORM VALIDATION --> 
+ </section>
+</section>
+</body>
+
+<th:block  th:include="/foot.html"> </th:block>
+</html>

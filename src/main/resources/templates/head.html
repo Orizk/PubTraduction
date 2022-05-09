@@ -1,0 +1,38 @@
+<!-- Bootstrap core CSS -->
+  <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!--external css-->
+  <link href="/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+  <!-- Custom styles for this template -->
+  <link href="/css/style.css" rel="stylesheet">
+  <link href="/css/style-responsive.css" rel="stylesheet">
+ 
+<header class="header black-bg">
+     
+      <!--logo start-->
+      <a th:href="@{~/account/index}" class="logo"><b>TRADUCT<span>ION</span></b></a>
+      <!--logo end-->
+      <div class="nav notify-row" id="top_menu">
+        <!--  notification start -->
+        <ul class="nav top-menu">
+          <!-- settings start -->
+          
+          <!-- settings end -->
+          <!-- inbox dropdown start-->
+          <!-- inbox dropdown end -->
+          <!-- notification dropdown start-->
+          <!-- notification dropdown end -->
+        </ul>
+        <!--  notification end -->
+      </div>
+      <div class="top-menu">
+      <div sec:authorize="isAuthenticated()">
+      <form th:action="@{/deconnexion}" method="post"> 
+        <ul class="nav pull-right top-menu">
+          <li>Bonjour, <span sec:authentication="principal.prenom"></span> <input type="submit" value="Logout" class="logout"/></li>
+        </ul>
+      </form>
+      </div>
+      </div>
+    </header> 
+
+  

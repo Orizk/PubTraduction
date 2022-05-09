@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head> 
+
+    <title>Proverbe Traduction</title> 
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<th:block  th:include="/head.html"> </th:block>
+	<th:block  th:include="/menu.html"> </th:block>
+	
+</head>
+
+<body>
+<section id="main-content">
+      <section class="wrapper">
+        <h3><i class="fa fa-angle-right"></i> Gestion Langues</h3>
+<!-- BASIC FORM VALIDATION -->
+        <div class="row mt">
+          <div class="col-lg-12">
+            <h4><i class="fa fa-angle-right"></i> Ajouter une langue</h4>
+            <div class="form-panel">
+              <form role="form" th:action="@{/admin/langues/save_langues}" th:object="${langues}" method="post" class="form-horizontal style-form">
+              
+                <div class="form-group has-success">
+                
+                  <label class="col-lg-2 control-label">Code de la Langue</label>
+                  <div class="col-lg-10">
+ 						<input type="text" th:field="*{code_langue}" id="name" placeholder="Code de la langue" class="form-control" required>
+                  </div>
+                </div>
+                 <div class="form-group has-success">
+                  <label class="col-lg-2 control-label">Nom de la Langue</label>
+                  <div class="col-lg-10">
+ 						<input type="text" th:field="*{nom_langue}" id="prenom" placeholder="Nom de la langue" class="form-control" required>
+                  </div>
+                </div>
+               
+                <div class="form-group">
+                  <div class="col-lg-offset-2 col-lg-10">
+                    <button class="btn btn-theme" type="submit">Ajouter</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <!-- /form-panel -->
+          </div>
+          <!-- /col-lg-12 -->
+        </div>
+        <!-- /row -->
+        <!-- FORM VALIDATION --> 
+ </section>
+</section>
+</body>
+
+<th:block  th:include="/foot.html"> </th:block>
+</html>

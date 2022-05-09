@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head> 
+
+    <title>Proverbe Traduction</title> 
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<th:block  th:include="/head.html"> </th:block>
+	<th:block  th:include="/menu.html"> </th:block>
+	
+</head>
+
+<body>
+<section id="main-content">
+      <section class="wrapper">
+        <h3><i class="fa fa-angle-right"></i> Gestion Publications</h3>
+<!-- BASIC FORM VALIDATION -->
+        <div class="row mt">
+          <div class="col-lg-12">
+            <h4><i class="fa fa-angle-right"></i> Ajouter une Publication</h4>
+            <div class="form-panel">
+              <form role="form" th:action="@{/publications/save_publications}"  enctype="multipart/form-data" th:object="${publications}" method="POST" class="form-horizontal style-form">
+              
+                <div class="form-group has-success">
+                  <label class="col-lg-2 control-label">Proverbe Original</label>
+                  <div class="col-lg-10">
+ 						<input type="text" th:field="*{titre}" id="proverbe" placeholder="Texte ou Titre de la Publication(Proverbe)" class="form-control" required>
+                  </div>
+                </div>
+                
+                  <div class="form-group has-success">
+                 <label class="col-lg-2 control-label">Mot Cle</label>
+                  <div class="col-lg-10">
+ 						<input type="text" th:field="*{motcle}" id="motcle" placeholder="Mot Cle de la Publication" class="form-control" required>
+                  </div>
+                </div>
+               
+                 <div class="form-group has-success">
+                  <label class="col-lg-2 control-label">Auteur de la Publication</label>
+                  <div class="col-lg-10">
+ 						<input type="text" th:field="*{auteur}" id="auteur" placeholder="Auteur de la Publication" class="form-control" required>
+                  </div>
+                </div>
+                
+                <div class="form-group has-success">
+                 <label class="col-lg-2 control-label">Source</label>
+                  <div class="col-lg-10">
+ 						<input type="text" th:field="*{source}" id="source" placeholder="Source de la Publication" class="form-control" required>
+                  </div>
+                </div>
+                
+                  <div class="form-group has-success">
+                 <label class="col-lg-2 control-label">Description</label>
+                  <div class="col-lg-10">
+ 						<input type="text" th:field="*{description}" id="motcle" placeholder="Mot Cle de la Publication" class="form-control" required>
+                  </div>
+                </div>
+                
+                
+              <!--   <div class="form-group has-success">
+                  <label class="col-lg-2 control-label">Langue</label>
+                  <div class="col-lg-10">
+ 						<input type="text" th:field="${publications.langue.id}"  id="langue" placeholder="Code de la langue" class="form-control">
+                  </div>
+                </div>-->
+                
+               
+                
+                 <div class="form-group has-success">
+                  <label class="col-lg-2 control-label">Sens du Proverbe</label>
+                  <div class="col-lg-10">
+ 						<textarea th:field="*{sens}" id="sens" placeholder="Sens du Proverbe" rows="3" class="form-control"/>
+                  </div>
+                </div>
+                <div class="form-group has-success">
+                 <label class="col-lg-2 control-label">Langue</label>
+                 <div class="col-lg-10">
+			     <select th:field="*{langue}" class="form-control" required>
+			       <option value="">Choisir une langue</option>
+			       <option  th:each="langues: ${languepub}" th:value="${langues.id_langue}" th:text="${langues.nom_langue}"></option>
+			    </select>
+                 </div>
+                </div>
+                
+            <!--    <div class="form-group has-success">
+                 <label class="col-lg-2 control-label">Utilisateurs</label>
+                 <div class="col-lg-10">
+			     <select th:field="*{utilisateur}" class="form-control">
+			       <option  th:each="users: ${formuser}" th:value="${users.id_utilisateur}" th:text="${users.nom}"></option>
+			    </select>
+                 </div>
+                </div>-->
+               <!-- <input type="hidden" th:field="*{langue}" value="1" />-->
+              <input type="hidden" th:field="*{utilisateur}" th:value="${#request.userPrincipal.principal.iduser}" />
+              <!-- <input type="hidden" th:field="*{utilisateur}" th:value="${formuser.id_utilisateur}" />-->
+              <a th:field="*{utilisateur}" th:inline="text">
+             <!-- [[${#request.userPrincipal.principal.iduser}]]
+              [[${#request.userPrincipal.principal.prenom}]] -->
+              </a>
+               
+                <input type="file" name="image" />
+               <input type="hidden" th:field="*{statut}"  />
+                </div>
+                </div>
+               
+                <div class="form-group">
+                  <div class="col-lg-offset-2 col-lg-10">
+                    <button class="btn btn-theme" type="submit">Ajouter</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <!-- /form-panel -->
+          </div>
+          <!-- /col-lg-12 -->
+        </div>
+        <!-- /row -->
+        <!-- FORM VALIDATION --> 
+ </section>
+</section>
+</body>
+
+<th:block  th:include="/foot.html"> </th:block>
+</html>

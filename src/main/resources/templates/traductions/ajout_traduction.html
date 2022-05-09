@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head> 
+
+    <title>Proverbe Traduction</title> 
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<th:block  th:include="/head.html"> </th:block>
+	<th:block  th:include="/menu.html"> </th:block>
+	
+</head>
+
+<body>
+<section id="main-content">
+      <section class="wrapper">
+        <h3><i class="fa fa-angle-right"></i> Gestion Traductions</h3>
+<!-- BASIC FORM VALIDATION -->
+        <div class="row mt">
+          <div class="col-lg-12">
+            <h4><i class="fa fa-angle-right"></i> Ajouter une Traduction</h4>
+            <div class="form-panel">
+              <form role="form" th:action="@{/traductions/save_traductions}"  th:object="${traductions}" method="POST" class="form-horizontal style-form">
+              
+                <div class="form-group has-success">
+                  <label class="col-lg-2 control-label">Publication</label>
+                  <div class="col-lg-10">
+	                   <select th:field="*{publication}" class="form-control" required>
+					       <option value="">Choisir une Publication</option>
+					       <option  th:each="pub: ${publitrad}" th:value="${pub.id_publication}" th:text="${pub.titre}"></option>
+				       </select>
+                  </div>
+                </div>
+                
+
+                <div class="form-group has-success">
+                 <label class="col-lg-2 control-label">Langue</label>
+                 <div class="col-lg-10">
+			     <select th:field="*{langue}" class="form-control" required>
+			       <option value="">Choisir une langue</option>
+			       <option  th:each="langues: ${languetrad}" th:value="${langues.id_langue}" th:text="${langues.nom_langue}"></option>
+			    </select>
+                 </div>
+                </div>
+                
+                                 <div class="form-group has-success">
+                  <label class="col-lg-2 control-label">Traduction</label>
+                  <div class="col-lg-10">
+ 						<textarea th:field="*{text_traduction}" id="text_traduction" placeholder="Traduction de la publication" rows="3" class="form-control"/>
+                  </div>
+                </div>
+
+              <input type="hidden" th:field="*{utilisateur}" th:value="${#request.userPrincipal.principal.iduser}" />
+                </div>
+                </div>
+               
+                <div class="form-group">
+                  <div class="col-lg-offset-2 col-lg-10">
+                    <button class="btn btn-theme" type="submit">Ajouter</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <!-- /form-panel -->
+          </div>
+          <!-- /col-lg-12 -->
+        </div>
+        <!-- /row -->
+        <!-- FORM VALIDATION --> 
+ </section>
+</body>
+
+<th:block  th:include="/foot.html"> </th:block>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head> 
+
+    <title>Proverbe Traduction</title> 
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<th:block  th:include="/head.html"> </th:block>
+	<th:block  th:include="/menu.html"> </th:block>
+</head>
+
+<body>
+
+    <div th:switch="${publications}">       
+    <section id="main-content">   
+    	<section class="wrapper">   
+	<div class="row mt">
+          <div class="col-lg-12">
+            <div class="content-panel">
+              <table class="table table-striped table-advance table-hover">
+                <h4><i class="fa fa-angle-right"></i> List des Publications</h4>
+                <hr>
+                <thead>
+                  <tr>
+                    <th><i class="fa fa-file-text-o"></i> Publication</th>
+                    <th><i class="fa fa-user"></i> Posteur</th>
+                    <th><i class="fa fa-user"></i> Ecrivain</th>
+                    <th><i class="fa fa-info"></i> Statut</th>
+                    <th><i class="fa fa-flag"></i> Langue</th>
+                    <th><i class="fa fa-cog"></i> Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <div sec:authorize="hasAuthority('ADMIN')">
+                  <tr th:each="publications : ${publications}">
+                    <td th:text="${publications.titre}"></td>
+                     <td th:text="${publications.utilisateur.nom}"></td>
+                    <td th:text="${publications.auteur}"></td>
+                    <td th:if="${publications.statut == true}">Oui</td>
+                    <td th:unless="${publications.statut == true}">Non</td>
+                    <td th:text="${publications.langue.code_langue}"></td>
+                    <td>
+                    <button th:if="${publications.statut == false}" type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modalvalidation" th:data-whatever="${publications.id_publication}" data-title="Activation de la Publication" th:data-name="${'Vous voulez Activer la publication de '+publications.titre}+' ?'"><i class="fa fa-check "></i></button>
+                    <button th:unless="${publications.statut == false}" type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modalvalidation" th:data-whatever="${publications.id_publication}" data-title="Desactivation de la Publication" th:data-name="${'Vous voulez Desactiver la publication de '+publications.titre}+' ?'"><i class="fa fa-times "></i></button>
+                    <a class="btn btn-default btn-xs" th:href="@{~/publication/voir/{id}(id=${publications.id_publication})}"> <i class="fa fa-eye"></i></a>
+                    <a class="btn btn-primary btn-xs" th:href="@{~/publication/edit/{id}(id=${publications.id_publication})}"> <i class="fa fa-pencil"></i></a>
+                     <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteconfirmation" th:data-whatever="${publications.id_publication}" th:data-name="${publications.titre}"><i class="fa fa-trash-o "></i></button>
+                    </td>
+                  </tr>
+                </div>
+                 <div sec:authorize="hasAuthority('user')">
+                  <tr th:each="publications : ${activepub}">
+                    <td th:text="${publications.titre}"></td>
+                     <td th:text="${publications.utilisateur.nom}"></td>
+                    <td th:text="${publications.auteur}"></td>
+                    <td th:if="${publications.statut == true}">Valider</td>
+                    <td th:unless="${publications.statut == true}">Non Valider</td>
+                    <td th:text="${publications.langue.code_langue}"></td>
+                    <td>
+                    <a class="btn btn-default btn-xs" th:href="@{~/publication/voir/{id}(id=${publications.id_publication})}"> <i class="fa fa-eye"></i></a>
+                    </td>
+                  </tr>
+                </div>
+                </tbody>
+              </table>
+            </div>
+            
+            <!-- Modal Pour la supression -->
+            <div class="modal fade" id="deleteconfirmation" tabindex="-1" role="dialog" aria-labelledby="deleteconfirmation" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirmer la Suppression</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <a class="btn btn-primary del" >Supprimer</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Fin modal Suppression -->
+
+<!-- Modal Activation et Désactivation -->
+<div class="modal fade" id="modalvalidation" tabindex="-1" role="dialog" aria-labelledby="modalvalidation" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <a class="btn btn-primary actv" >Oui</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Fin Modal Activer desactiver -->
+            <!-- /content-panel -->
+          </div>
+          <!-- /col-md-12 -->
+        </div>
+        
+        <br/>
+        <p><a href="#" class="btn btn-primary btn-md" th:href="@{~/publications/ajout_publications}">Ajouter Publication</a></p>
+    	</section>
+    </section>
+    
+
+</div>
+
+</body>
+<th:block  th:include="/foot.html"> </th:block>
+<script>
+$('#deleteconfirmation').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) 
+  var id = button.data('whatever') 
+  var nom = button.data('name')
+  var modal = $(this)
+  modal.find('.modal-body').text("Confirmer la suppresion de la publication "+nom)
+  modal.find('.del').attr("href", "/publication/delete/"+id)
+});
+
+$('#modalvalidation').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) 
+  var id = button.data('whatever') 
+  var body = button.data('name')
+  var title = button.data('title')
+  var modal = $(this)
+  
+  modal.find('.modal-title').text(title)
+  modal.find('.modal-body').text(body)
+  modal.find('.actv').attr("href", "/publication/valide/"+id)
+})
+</script>
+</html>

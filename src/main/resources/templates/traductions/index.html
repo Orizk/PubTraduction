@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head> 
+
+    <title>Proverbe Traduction</title> 
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<th:block  th:include="/head.html"> </th:block>
+	<th:block  th:include="/menu.html"> </th:block>
+</head>
+
+<body>
+
+         
+    <section id="main-content">   
+    	<section class="wrapper">   
+	<div class="row mt">
+          <div class="col-lg-12">
+            <div class="content-panel">
+              <table class="table table-striped table-advance table-hover">
+                <h4><i class="fa fa-angle-right"></i> List des Traductions</h4>
+                <hr>
+                <thead>
+                  <tr>
+                    <th><i class="fa fa-file-text-o"></i> Publication</th>
+                    <th><i class="fa fa-flag"></i> Langue</th>
+                    <th><i class="fa fa-file-text"></i> Traduction Text</th>
+                    <th><i class="fa fa-globe"></i> Langue Traduction</th>
+                    <th sec:authorize="hasAuthority('ADMIN')"><i class="fa fa-cog"></i> Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="traductions : ${traductions}">
+                    <td th:text="${traductions.publication.titre}"></td>
+                     <td th:text="${traductions.publication.langue.code_langue}"></td>
+                    <td th:text="${traductions.text_traduction}"></td>
+                    <td th:text="${traductions.langue.code_langue}"></td>
+                    <td sec:authorize="hasAuthority('ADMIN')">
+                    <a class="btn btn-primary btn-xs" th:href="@{~/traduction/edit/{idtrad}/{idpub}(idtrad=${traductions.id_traduction},idpub=${traductions.publication.id_publication})}"> <i class="fa fa-pencil"></i></a>
+                     <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteconfirmation" th:data-whatever="${traductions.id_traduction}" th:data-name="${traductions.text_traduction}"><i class="fa fa-trash-o "></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <!-- Modal Pour la supression -->
+            <div class="modal fade" id="deleteconfirmation" tabindex="-1" role="dialog" aria-labelledby="deleteconfirmation" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirmer la Suppression</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <a class="btn btn-primary del" >Supprimer</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Fin modal Suppression -->
+
+<!-- Modal Activation et Désactivation -->
+<div class="modal fade" id="modalvalidation" tabindex="-1" role="dialog" aria-labelledby="modalvalidation" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <a class="btn btn-primary actv" >Oui</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Fin Modal Activer desactiver -->
+            <!-- /content-panel -->
+          </div>
+          <!-- /col-md-12 -->
+        </div>
+        
+        <br/>
+        <p><a href="#" class="btn btn-primary btn-md" th:href="@{~/traductions/ajout_traduction}">Ajouter Traduction</a></p>
+    	</section>
+    </section>
+    
+
+
+
+</body>
+<th:block  th:include="/foot.html"> </th:block>
+<script>
+$('#deleteconfirmation').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) 
+  var id = button.data('whatever') 
+  var nom = button.data('name')
+  var modal = $(this)
+  modal.find('.modal-body').text("Confirmer la suppresion de la traduction "+nom)
+  modal.find('.del').attr("href", "/traduction/delete/"+id)
+});
+</script>
+</html>

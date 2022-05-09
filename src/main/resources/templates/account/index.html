@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head> 
+
+    <title>Proverbe Traduction</title> 
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<th:block  th:include="/head.html"> </th:block>
+	<th:block  th:include="/menu.html"> </th:block>
+</head>
+
+<body>
+
+          
+    <section id="main-content">   
+    	<section class="wrapper">   
+	<div class="row mt">
+          <div class="col-lg-12">
+         
+                <div sec:authorize="isAuthenticated()">
+  <!--  /col-md-4 -->
+              <div class="col-md-4 col-sm-4 mb">
+                <div class="grey-panel pn">
+                  <div class="grey-header">
+                    <h5>Publications</h5>
+                  </div>
+                  <h1 class="mt"><i class="fa fa-file-o fa-2x"></i></h1>
+                  <p th:text="@{ Mes Publications :  {count} (count=${count})}"></p>
+                  <p th:text="@{ Publications Active sur le site :  {count_site} (count_site=${count_site})}"></p>
+                  <div class="grey-footer">
+             <a th:href="@{~/publications/index}" class="">
+              Voir Publications
+              </a>
+                  </div>
+                </div>
+                <!--  /darkblue panel -->
+              </div>
+              <!-- /col-md-4 -->
+</div>
+<div sec:authorize="hasAuthority('ADMIN')">
+ <!-- This content is only shown to administrators.-->
+</div>
+<div sec:authorize="hasAuthority('USER')">
+  <!-- This content is only shown to users.-->
+</div>
+
+<div sec:authorize="isAnonymous()">
+<div class="col-lg-12 alert alert-danger" >
+Il faut etre connecter pour acceder a cette page
+</div>
+ <div class="col-lg-offset-2 col-lg-10">
+                    <a th:href="@{~/login}" class="btn btn-theme">Se Connecter</a>
+                  </div>
+                  
+</div>
+           
+          </div>
+          <!-- /col-md-12 -->
+        </div>
+        
+    	</section>
+    </section>
+
+
+</body>
+<th:block  th:include="/foot.html"> </th:block>
+
+</html>

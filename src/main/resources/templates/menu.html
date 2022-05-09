@@ -1,0 +1,61 @@
+  <aside>
+      <div id="sidebar" class="nav-collapse ">
+        <!-- sidebar menu start-->
+        <ul class="sidebar-menu" id="nav-accordion">
+         
+          <li class="mt" sec:authorize="isAuthenticated()">
+            <a th:href="@{~/account/index}">
+              <i class="fa fa-dashboard"></i>
+              <span>Accueil</span>
+              </a>
+          </li>
+          <div sec:authorize="hasAuthority('ADMIN')">
+          <li class="sub-menu" >
+            <a href="javascript:;">
+              <i class="fa fa-users"></i>
+              <span>Gestion des Utilisateurs</span>
+              </a>
+            <ul class="sub">
+              <li><a th:href="@{~/admin/utilisateurs/ajout_utilisateurs}">Ajouter un utilisateur</a></li>
+              <li><a th:href="@{~/admin/utilisateurs/index}">Listes des utilisateurs</a></li>
+            </ul>
+          </li>
+          </div>
+          <div sec:authorize="hasAuthority('ADMIN')">
+          <li class="sub-menu" >
+            <a href="javascript:;">
+              <i class="fa fa-flag"></i>
+              <span>Gestion des Langues</span>
+              </a>
+            <ul class="sub">
+              <li><a th:href="@{~/admin/langues/ajout_langues}">Ajouter une langue</a></li>
+              <li><a th:href="@{~/admin/langues/index}">Listes des langues</a></li>
+            </ul>
+          </li>
+          </div>
+          <li class="sub-menu" sec:authorize="isAuthenticated()">
+            <a href="javascript:;">
+              <i class="fa fa-file-text-o"></i>
+              <span>Publications</span>
+              </a>
+            <ul class="sub">
+              <li><a th:href="@{~/publications/ajout_publications}">Ajouter une Publication</a></li>
+              <li><a th:href="@{~/publications/index}">Listes des Publications</a></li>
+            </ul>
+          </li>
+          
+           <li class="sub-menu" sec:authorize="isAuthenticated()">
+            <a href="javascript:;">
+              <i class="fa fa-globe"></i>
+              <span>Traduction</span>
+              </a>
+            <ul class="sub">
+              <li><a th:href="@{~/traductions/ajout_traduction}">Ajouter une Traduction</a></li>
+              <li><a th:href="@{~/traductions/index}">Listes des Traductions</a></li>
+            </ul>
+          </li>
+       
+        </ul>
+        <!-- sidebar menu end-->
+      </div>
+    </aside>
